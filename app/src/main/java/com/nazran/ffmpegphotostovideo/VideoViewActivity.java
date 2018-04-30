@@ -41,9 +41,9 @@ public class VideoViewActivity extends AppCompatActivity {
         progressDialog.show();
 
         loadFFMpegBinary();
-        makeVideo();
+        //makeVideo();
         //makeSingleImageVideo();
-        //makeTextAnimationVideo();
+        makeTextAnimationVideo();
 
         createTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,19 +149,29 @@ public class VideoViewActivity extends AppCompatActivity {
     private void makeTextAnimationVideo() {
         File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
-        String fileOutputPrefix = "output_video";
+        String fileOutputPrefix = "anim_video";
         String fileOutputExtn = ".mp4";
         File dest = new File(picDir, fileOutputPrefix + fileOutputExtn);
 
-        //left to right text
-        //String command[] = {"-i", picDir + "/input_video.mp4", "-vf", "[in]drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=white:x=60:y=h-30*t:text='START BEFORE YOURE READY'[out]", "-c:v", "libx264", "-t", "2", dest.getAbsolutePath()};
+        //left to right
+        //String command[] = {"-y", "-i", picDir + "/output_video.mp4", "-vf", "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=white:x=h-350*t:y=700:text='START BEFORE YOU'RE READY'", "-t", "2", dest.getAbsolutePath()};
 
-        //fade in/out
-        //String command[] = {"-y", "-i", picDir + "/input_video.mp4", "-strict", "2", "-c:v", "libx264", "-preset", "slow", "-crf", "16", "-profile:v", "high", "-level", "3.1", "-c:a", "aac", "-b:a", "128k", "-vf", "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='MY-TEXT':x=(main_w/2-text_w/2):y=470:fontsize=120:fontcolor=EE0078", dest.getAbsolutePath()};
+        //String command[] = {"-i", picDir + "/output_video.mp4", "-filter_complex", "[0:v]drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='WELCOME':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=(w-text_w)/2:y=(h-text_h)/2", dest.getAbsolutePath()};
 
-        //String command[] = {"-y", "-i", picDir + "/input_video.mp4", "-filter_complex", "[0]split[base][text];[text]drawtext=fontfile='/system/fonts/DroidSerif-Regular.ttf':text='Testing': fontcolor=white: fontsize=40: box=1: boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=(h-text_h)/2,format=yuva444p,fade=t=in:st=2:d=1:alpha=1,fade=t=out:st=3:d=1:alpha=1[subtitles]; [base][subtitles]overlay", dest.getAbsolutePath()};
-
-        String command[] = {"-i", picDir + "/input_video.mp4", "-vf", "drawtext=fontsize=80:fontfile=/system/fonts/DroidSans.ttf:fontcolor=green:text=P‌​ost:x=326.0:y=429.5", dest.getAbsolutePath()};
+        String command[] = {"-y",
+                "-loop", "1", "-i", picDir + "/video_photo001.PNG",
+                "-loop", "1", "-i", picDir + "/video_photo002.PNG",
+                "-loop", "1", "-i", picDir + "/video_photo003.PNG",
+                "-filter_complex",
+                "[0:v]trim=duration=3,drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='WELCOME':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=225:y=60," +
+                        "drawtext=text='START BEFORE YOU ARE READY':fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=ffffff:x=w-225*t:y=700," +
+                        "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='RISE':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=400:y=340," +
+                        "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='TOGETHER':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=400:y=420,setsar=1/1[v0];" +
+                        "[1:v]trim=duration=3,drawtext=text='T H E W O R L D I S':fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=blue:x=250:y=100+t*30-100," +
+                        "drawtext=text='beautiful':fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=ffffff:x=250-20*t:y=150," +
+                        "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='SAVE THE PLANET':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=150:y=700,setsar=1/1[v1];" +
+                        "[2:v]trim=duration=3,fade=t=in:st=0:d=1,fade=t=out:st=2:d=1,setsar=1/1[v2];" +
+                        "[v0][v1][v2]concat=n=3:v=1:a=0,setsar=1/1[v]", "-map", "[v]", "-aspect", "1:1", "-r", "24", "-pix_fmt", "yuv420p", dest.getAbsolutePath()};
         execFFmpegBinary(command);
     }
 
