@@ -147,7 +147,7 @@ public class GalleryActivity extends AppCompatActivity {
     private void saveDrawableToMemory(Drawable resource, int fileNo) {
         Bitmap bm = drawableToBitmap(resource);
 
-        if (fileNo == 1) {
+        /*if (fileNo == 1) {
             Canvas canvas = new Canvas(bm);
             Paint paint1 = new Paint();
             paint1.setColor(Color.WHITE);
@@ -213,7 +213,7 @@ public class GalleryActivity extends AppCompatActivity {
             paint3.setTypeface(face2);
             canvas.drawText("SAVE THE PLANET", 200, 750, paint4);
         }
-
+*/
         File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
         File file = new File(picDir, "video_photo00" + fileNo + ".PNG");

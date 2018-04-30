@@ -42,6 +42,8 @@ public class VideoViewActivity extends AppCompatActivity {
 
         loadFFMpegBinary();
         makeVideo();
+        //makeSingleImageVideo();
+        //makeTextAnimationVideo();
 
         createTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +131,37 @@ public class VideoViewActivity extends AppCompatActivity {
 * */
 /*        String command[] = {"-loop", "1", "-i", images.get(12),
                 "-c:v", "libx264", "-t", "3", "-pix_fmt", "yuv420p", dest.getAbsolutePath()};*/
+        execFFmpegBinary(command);
+    }
+
+    private void makeSingleImageVideo() {
+        File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+        String fileOutputPrefix = "input_video";
+        String fileOutputExtn = ".mp4";
+        File dest = new File(picDir, fileOutputPrefix + fileOutputExtn);
+
+        String command[] = {"-loop", "1", "-i", picDir + "/video_photo001.PNG",
+                "-c:v", "libx264", "-t", "4", "-pix_fmt", "yuv420p", dest.getAbsolutePath()};
+        execFFmpegBinary(command);
+    }
+
+    private void makeTextAnimationVideo() {
+        File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+        String fileOutputPrefix = "output_video";
+        String fileOutputExtn = ".mp4";
+        File dest = new File(picDir, fileOutputPrefix + fileOutputExtn);
+
+        //left to right text
+        //String command[] = {"-i", picDir + "/input_video.mp4", "-vf", "[in]drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=white:x=60:y=h-30*t:text='START BEFORE YOURE READY'[out]", "-c:v", "libx264", "-t", "2", dest.getAbsolutePath()};
+
+        //fade in/out
+        //String command[] = {"-y", "-i", picDir + "/input_video.mp4", "-strict", "2", "-c:v", "libx264", "-preset", "slow", "-crf", "16", "-profile:v", "high", "-level", "3.1", "-c:a", "aac", "-b:a", "128k", "-vf", "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='MY-TEXT':x=(main_w/2-text_w/2):y=470:fontsize=120:fontcolor=EE0078", dest.getAbsolutePath()};
+
+        //String command[] = {"-y", "-i", picDir + "/input_video.mp4", "-filter_complex", "[0]split[base][text];[text]drawtext=fontfile='/system/fonts/DroidSerif-Regular.ttf':text='Testing': fontcolor=white: fontsize=40: box=1: boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=(h-text_h)/2,format=yuva444p,fade=t=in:st=2:d=1:alpha=1,fade=t=out:st=3:d=1:alpha=1[subtitles]; [base][subtitles]overlay", dest.getAbsolutePath()};
+
+        String command[] = {"-i", picDir + "/input_video.mp4", "-vf", "drawtext=fontsize=80:fontfile=/system/fonts/DroidSans.ttf:fontcolor=green:text=P‌​ost:x=326.0:y=429.5", dest.getAbsolutePath()};
         execFFmpegBinary(command);
     }
 
