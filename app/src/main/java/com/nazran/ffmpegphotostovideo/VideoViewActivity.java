@@ -158,20 +158,35 @@ public class VideoViewActivity extends AppCompatActivity {
 
         //String command[] = {"-i", picDir + "/output_video.mp4", "-filter_complex", "[0:v]drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='WELCOME':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=(w-text_w)/2:y=(h-text_h)/2", dest.getAbsolutePath()};
 
+        //y='max(0,(t)*400)'
+        //fade=t=in:st=0:d=1,fade=t=out:st=2:d=1
+        //y=h-line_h:x=-50*t
+        //y=800-(t)*200
+        //overlay=shortest=1:enable='between(t,3,4)':y=(-800)+(t)*150,
+        //"-r", "24",
+        //x=250-20*t:y=150,
+
         String command[] = {"-y",
                 "-loop", "1", "-i", picDir + "/video_photo001.PNG",
                 "-loop", "1", "-i", picDir + "/video_photo002.PNG",
                 "-loop", "1", "-i", picDir + "/video_photo003.PNG",
                 "-filter_complex",
-                "[0:v]trim=duration=3,drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='WELCOME':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=225:y=60," +
-                        "drawtext=text='START BEFORE YOU ARE READY':fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=ffffff:x=w-225*t:y=700," +
-                        "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='RISE':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=400:y=340," +
-                        "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='TOGETHER':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=400:y=420,setsar=1/1[v0];" +
-                        "[1:v]trim=duration=3,drawtext=text='T H E W O R L D I S':fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=blue:x=250:y=100+t*30-100," +
-                        "drawtext=text='beautiful':fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=ffffff:x=250-20*t:y=150," +
-                        "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='SAVE THE PLANET':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=150:y=700,setsar=1/1[v1];" +
-                        "[2:v]trim=duration=3,fade=t=in:st=0:d=1,fade=t=out:st=2:d=1,setsar=1/1[v2];" +
-                        "[v0][v1][v2]concat=n=3:v=1:a=0,setsar=1/1[v]", "-map", "[v]", "-aspect", "1:1", "-r", "24", "-pix_fmt", "yuv420p", dest.getAbsolutePath()};
+                "[0:v]trim=duration=3,overlay=shortest=1:enable='between(t,2.5,3)':y=800-(t)*266," +
+                        "drawtext=enable='between(t,0,2.5)':fontfile=/system/fonts/DroidSerif-Bold.ttf:text='WELCOME':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=(w-text_w)/2:y=60," +
+                        "drawtext=enable='between(t,0,2.5)':text='START BEFORE YOU ARE READY':fontfile=/system/fonts/RobotoCondensed-Regular.ttf:fontsize=60:fontcolor=ffffff:x=w-275*t:y=700," +
+                        "drawtext=enable='between(t,0,2.5)':fontfile=/system/fonts/Roboto-Bold.ttf:text='RISE':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=w/2:y=h/2-text_h," +
+                        "drawtext=enable='between(t,0,2.5)':fontfile=/system/fonts/Roboto-Bold.ttf:text='TOGETHER':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=w/2:y=h/2,setsar=1/1[v0];" +
+                        "[1:v]trim=duration=3,overlay=shortest=1:enable='between(t,2.5,3)':y=-(800)+(t)*266," +
+                        "drawtext=enable='between(t,0,2.5)':text='T H E  W O R L D  I S':fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=2fa4b6:x=(w-text_w)/2:y=100+t*30-100," +
+                        "drawtext=enable='between(t,0,2.5)':text='beautiful':fontfile=/system/fonts/DroidSans-Bold.ttf:fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=(w-text_w)/2:y=150," +
+                        "drawtext=enable='between(t,0,2.5)':fontfile=/system/fonts/RobotoCondensed-Regular.ttf:text='SAVE THE PLANET':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=(w-text_w)/2:y=700,setsar=1/1[v1];" +
+                        "[2:v]trim=duration=3," +
+                        "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='just':fontsize=80:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=200:y=50," +
+                        "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='Breathe':fontsize=80:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=150:y=110," +
+                        "drawtext=text='Nature is pleased':fontfile=/system/fonts/RobotoCondensed-Italic.ttf:fontsize=40:fontcolor=white:x=(w-text_w)/2:y=800-t*30," +
+                        "drawtext=text='With Simplicity':fontfile=/system/fonts/RobotoCondensed-Italic.ttf:fontsize=40:fontcolor=white:x=(w-text_w)/2:y=850-t*30," +
+                        "drawtext=fontsize=40:fontcolor=white:fontfile=/system/fonts/RobotoCondensed-Regular.ttf:text='STAY CLOSE TO NATURE':x=(-520)+(t)*200:y=400,setsar=1/1[v2];" +
+                        "[v0][v1][v2]concat=n=3:v=1:a=0,setsar=1/1[v]", "-map", "[v]", "-aspect", "1:1", "-crf", "27", "-preset", "veryfast", "-pix_fmt", "yuv420p", dest.getAbsolutePath()};
         execFFmpegBinary(command);
     }
 
@@ -217,10 +232,10 @@ public class VideoViewActivity extends AppCompatActivity {
     }
 
     private void playVideo() {
-        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/output_video.mp4";
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/anim_video.mp4";
         File file = new File(path);
         if (file.exists()) {
-            Uri uri = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/output_video.mp4");
+            Uri uri = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/anim_video.mp4");
             videoView.stopPlayback();
             videoView.setVideoURI(uri);
             videoView.start();
