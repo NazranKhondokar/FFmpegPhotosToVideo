@@ -279,8 +279,12 @@ public class GalleryActivity extends AppCompatActivity {
         while (cursor.moveToNext()) {
             absolutePathOfImage = cursor.getString(column_index_data);
             Log.e(TAG, absolutePathOfImage);
-            listOfAllImages.add(absolutePathOfImage);
+            File file = new File(absolutePathOfImage);
+            if (file.exists()){
+                listOfAllImages.add(absolutePathOfImage);
+            }
         }
+        cursor.close();
         return listOfAllImages;
     }
 

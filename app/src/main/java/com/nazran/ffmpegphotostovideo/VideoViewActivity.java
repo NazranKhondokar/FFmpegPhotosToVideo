@@ -142,7 +142,7 @@ public class VideoViewActivity extends AppCompatActivity {
         File dest = new File(picDir, fileOutputPrefix + fileOutputExtn);
 
         String command[] = {"-loop", "1", "-i", picDir + "/video_photo001.PNG",
-                "-c:v", "libx264", "-t", "4", "-pix_fmt", "yuv420p", dest.getAbsolutePath()};
+                "-c:v", "libx264", "-t", "3", "-pix_fmt", "yuv420p", dest.getAbsolutePath()};
         execFFmpegBinary(command);
     }
 
@@ -156,6 +156,7 @@ public class VideoViewActivity extends AppCompatActivity {
         //left to right
         //String command[] = {"-y", "-i", picDir + "/output_video.mp4", "-vf", "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=white:x=h-350*t:y=700:text='START BEFORE YOU'RE READY'", "-t", "2", dest.getAbsolutePath()};
 
+        //text with fade
         //String command[] = {"-i", picDir + "/output_video.mp4", "-filter_complex", "[0:v]drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='WELCOME':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=(w-text_w)/2:y=(h-text_h)/2", dest.getAbsolutePath()};
 
         //y='max(0,(t)*400)'
@@ -166,23 +167,26 @@ public class VideoViewActivity extends AppCompatActivity {
         //"-r", "24",
         //x=250-20*t:y=150,
 
+        //test
+        //String command[] = {"-y", "-i", picDir + "/input_video.mp4", "-vf", "drawtext=x=(w-text_w)/2:y=(h-text_h)/2:fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=white::text='START BEFORE YOU'RE READY'", "-crf", "27", "-preset", "veryfast", "-pix_fmt", "yuv420p", dest.getAbsolutePath()};
+
         String command[] = {"-y",
                 "-loop", "1", "-i", picDir + "/video_photo001.PNG",
                 "-loop", "1", "-i", picDir + "/video_photo002.PNG",
                 "-loop", "1", "-i", picDir + "/video_photo003.PNG",
                 "-filter_complex",
                 "[0:v]trim=duration=3,overlay=shortest=1:enable='between(t,2.5,3)':y=800-(t)*266," +
-                        "drawtext=enable='between(t,0,2.5)':fontfile=/system/fonts/DroidSerif-Bold.ttf:text='WELCOME':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=(w-text_w)/2:y=60," +
+                        "drawtext=enable='between(t,0,2.5)':fontfile=/system/fonts/DroidSans-Bold.ttf:text='WELCOME':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=(w-text_w)/2:y=60," +
                         "drawtext=enable='between(t,0,2.5)':text='START BEFORE YOU ARE READY':fontfile=/system/fonts/RobotoCondensed-Regular.ttf:fontsize=60:fontcolor=ffffff:x=w-275*t:y=700," +
                         "drawtext=enable='between(t,0,2.5)':fontfile=/system/fonts/Roboto-Bold.ttf:text='RISE':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=w/2:y=h/2-text_h," +
                         "drawtext=enable='between(t,0,2.5)':fontfile=/system/fonts/Roboto-Bold.ttf:text='TOGETHER':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=w/2:y=h/2,setsar=1/1[v0];" +
                         "[1:v]trim=duration=3,overlay=shortest=1:enable='between(t,2.5,3)':y=-(800)+(t)*266," +
-                        "drawtext=enable='between(t,0,2.5)':text='T H E  W O R L D  I S':fontfile=/system/fonts/DroidSerif-Regular.ttf:fontsize=40:fontcolor=2fa4b6:x=(w-text_w)/2:y=100+t*30-100," +
+                        "drawtext=enable='between(t,0,2.5)':text='T H E  W O R L D  I S':fontfile=/system/fonts/Roboto-Regular.ttf:fontsize=40:fontcolor=2fa4b6:x=(w-text_w)/2:y=100+t*30-100," +
                         "drawtext=enable='between(t,0,2.5)':text='beautiful':fontfile=/system/fonts/DroidSans-Bold.ttf:fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=(w-text_w)/2:y=150," +
                         "drawtext=enable='between(t,0,2.5)':fontfile=/system/fonts/RobotoCondensed-Regular.ttf:text='SAVE THE PLANET':fontsize=60:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=(w-text_w)/2:y=700,setsar=1/1[v1];" +
                         "[2:v]trim=duration=3," +
-                        "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='just':fontsize=80:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=200:y=50," +
-                        "drawtext=fontfile=/system/fonts/DroidSerif-Regular.ttf:text='Breathe':fontsize=80:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=150:y=110," +
+                        "drawtext=fontfile=/system/fonts/DroidSans.ttf:text='just':fontsize=80:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=200:y=50," +
+                        "drawtext=fontfile=/system/fonts/DroidSans.ttf:text='Breathe':fontsize=80:fontcolor=ffffff:alpha='if(lt(t,1),0,if(lt(t,2),(t-1)/1,if(lt(t,3),1,if(lt(t,4),(1-(t-3))/1,0))))':x=150:y=110," +
                         "drawtext=text='Nature is pleased':fontfile=/system/fonts/RobotoCondensed-Italic.ttf:fontsize=40:fontcolor=white:x=(w-text_w)/2:y=800-t*30," +
                         "drawtext=text='With Simplicity':fontfile=/system/fonts/RobotoCondensed-Italic.ttf:fontsize=40:fontcolor=white:x=(w-text_w)/2:y=850-t*30," +
                         "drawtext=fontsize=40:fontcolor=white:fontfile=/system/fonts/RobotoCondensed-Regular.ttf:text='STAY CLOSE TO NATURE':x=(-520)+(t)*200:y=400,setsar=1/1[v2];" +
